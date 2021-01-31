@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let platformHeight = 600;
     let isGameOver = false;
     let platforms = [];
+    let upTimerId;
+    let downTimerId;
 
     function craeteDooler(){
         grid.appendChild(doodler);
@@ -41,10 +43,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function movePlatforms(){
+        if(doodlerBottomSpace > 200){
+            platforms.forEach(platform => {
+                platform.bottom -= 4;
+                let visual = platform.visual;
+                visual.style.bottom = platform.bottom + 'px';
+            })
+        }
+    }
+
+    function jump(){
+        clearInterval(downTimerId);
+        upTimerId = setInterval(() =>{
+            doodlerBottomSpace += 20;
+            doodler.style.bottom = doodlerBottomSpace + 'px';
+            if(doodlerBottomSpace > 350){
+                fall();
+            }
+        },30)
+    }
+
+    function fall(){
+        clearInterval(upTimerId)
+        downTimerId = setInterval(() => {
+            doodlerBottomSpace -= 5;
+            doodler.style.bottom = doodlerBottomSpace + 'px';
+            if(doodlerBottomSpace <= 0){
+                gameOver();
+            }
+        }, 30)
+    }
+
+    function gameOver(){
+        console.log("Game Over");
+        isGameOver = true;
+        clearInterval(upTimerId);
+        clearInterval(downTimerId);
+    }
+
     function startGame(){
         if(!isGameOver){
             craeteDooler();
             createPlatforms();
+            setInterval(movePlatforms, 30);
+            jump();
         }
     }
     //attach start to a button
