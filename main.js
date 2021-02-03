@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid');
     const doodler = document.createElement('div');
+    const leftButton = document.createElement('button');
+    const rightButton = document.createElement('button');
+    const restartButton = document.createElement('button');
+
     let doodlerLeftSpace = 50;
     let startPoint = 150;
     let doodlerBottomSpace = startPoint;
@@ -23,6 +27,22 @@ document.addEventListener('DOMContentLoaded', () => {
         doodlerLeftSpace = platforms[0].left;
         doodler.style.left = doodlerLeftSpace + 'px';
         doodler.style.bottom = doodlerBottomSpace + 'px';
+    }
+
+    function careteButtons(){
+        grid.appendChild(leftButton);
+        leftButton.classList.add('button');
+        leftButton.innerHTML = "Go Left";
+        leftButton.style.left = '20px';
+        leftButton.style.top = '610px';
+        leftButton.onclick = () => moveLeft();
+
+        grid.appendChild(rightButton);
+        rightButton.classList.add('button');
+        rightButton.innerHTML = "Go Right";
+        rightButton.style.left = '320px';
+        rightButton.style.top = '610px';
+        rightButton.onclick = () => moveRight();
     }
 
     class Platform {
@@ -117,6 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(downTimerId);
         clearInterval(leftTimerId);
         clearInterval(rightTimerId);
+
+        grid.appendChild(restartButton);
+        restartButton.classList.add('button');
+        restartButton.innerHTML = "Play Again";
+        restartButton.style.left = '150px';
+        restartButton.style.top = '310px';
+        restartButton.onclick = () => {
+            alert("Work in progress, Please refresh to play again");
+            // grid.removeChild(grid.);
+            // isGameOver = false;
+            // startGame();
+
+        }
     }
 
     function control(e) {
@@ -168,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!isGameOver){
             createPlatforms();
             craeteDooler();
+            careteButtons();
             setInterval(movePlatforms, 30);
             jump();
             document.addEventListener('keyup',control);
