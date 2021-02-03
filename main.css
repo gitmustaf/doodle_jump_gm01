@@ -21,3 +21,7 @@
     background: url('./content/platform.png') no-repeat;
     position: absolute;
 }
+
+.button {
+    position: absolute;
+}
